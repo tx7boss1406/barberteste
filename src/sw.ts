@@ -8,10 +8,22 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 // Push notification handler
 self.addEventListener("push", (event) => {
-  const data = event.data?.json() ?? {};
+  let data: any = {};
+
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (error) {
+      data = {
+        title: "Barber Club & Tattoo",
+        body: event.data.text(),
+      };
+    }
+  }
+
   const title = data.title || "Barber Club & Tattoo";
   const options: NotificationOptions = {
-    body: data.body || "",
+    body: data.body || "Você tem uma nova notificação.",
     icon: "/pwa-192x192.png",
     badge: "/pwa-192x192.png",
     // @ts-ignore vibrate is valid for mobile
@@ -21,7 +33,9 @@ self.addEventListener("push", (event) => {
     data: { url: data.url || "/" },
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
 });
 
 // Notification click handler
