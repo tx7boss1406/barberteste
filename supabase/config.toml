@@ -1,0 +1,13 @@
+project_id = "ybndgdilwpihvmohdhil"
+
+[functions.generate-vapid]
+verify_jwt = false
+
+[functions.get-vapid-key]
+verify_jwt = false
+
+[functions.send-push]
+verify_jwt = false
+
+[functions.push-reminder]
+verify_jwt = false
